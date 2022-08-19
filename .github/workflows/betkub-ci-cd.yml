@@ -1,0 +1,21 @@
+name: Betkub CI CD
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  workflow_dispatch:
+
+jobs:
+  generate_config:
+    uses: iamlookod/github-ci/.github/workflows/config.yml@main
+
+  build:
+    runs-on: ubuntu-latest
+    needs: generate_config
+    steps:
+      - run: |
+          echo ${{ needs.generate_config.outputs.image_tag }}
+          echo ${{ needs.generate_config.outputs.image_name }}
+          echo ${{ needs.generate_config.outputs.image_repository }}
